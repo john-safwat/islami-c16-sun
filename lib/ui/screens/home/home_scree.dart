@@ -1,0 +1,147 @@
+import 'package:flutter/material.dart';
+import 'package:islami_c16_sum/core/assets/app_images.dart';
+import 'package:islami_c16_sum/core/styles/app_colors.dart';
+import 'package:islami_c16_sum/ui/screens/home/tabs/hadeth_tab.dart';
+import 'package:islami_c16_sum/ui/screens/home/tabs/quran_tab/quran_tab.dart';
+import 'package:islami_c16_sum/ui/screens/home/tabs/radio_tab.dart';
+import 'package:islami_c16_sum/ui/screens/home/tabs/sebha_tab.dart';
+import 'package:islami_c16_sum/ui/screens/home/tabs/time_tab.dart';
+
+class HomeScreen extends StatefulWidget {
+  static const String routeName = "home";
+
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int selectedIndex = 0;
+
+  List<Widget> tabs = [
+    QuranTab(),
+    HadethTab(),
+    SebhaTab(),
+    RadioTab(),
+    TimeTab(),
+  ];
+
+  List<String> backgroundImages = [
+    AppImages.quarnBG,
+    AppImages.hadethBG,
+    AppImages.sebhaBG,
+    AppImages.radioBG,
+    AppImages.moreBG,
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(backgroundImages[selectedIndex]),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppColors.black,
+              AppColors.black.withAlpha(70)],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: tabs[selectedIndex],
+          bottomNavigationBar: SizedBox(
+            height: 120,
+            child: BottomNavigationBar(
+              currentIndex: selectedIndex,
+              onTap: (newIndex) {
+                selectedIndex = newIndex;
+                setState(() {});
+              },
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: AppColors.gold,
+              unselectedItemColor: AppColors.black,
+              selectedItemColor: AppColors.white,
+              showSelectedLabels: true,
+              showUnselectedLabels: false,
+              items: [
+                BottomNavigationBarItem(
+                  icon: CustomBottomNavigationBarIcon(
+                    imagePath: AppImages.icQuran,
+                    isSelected: selectedIndex == 0,
+                  ),
+                  label: "Quran",
+                ),
+                BottomNavigationBarItem(
+                  icon: CustomBottomNavigationBarIcon(
+                    imagePath: AppImages.icHadeth,
+                    isSelected: selectedIndex == 1,
+                  ),
+                  label: "Hadeth",
+                ),
+                BottomNavigationBarItem(
+                  icon: CustomBottomNavigationBarIcon(
+                    imagePath: AppImages.icSebha,
+                    isSelected: selectedIndex == 2,
+                  ),
+                  label: "Sebha",
+                ),
+                BottomNavigationBarItem(
+                  icon: CustomBottomNavigationBarIcon(
+                    imagePath: AppImages.icRadio,
+                    isSelected: selectedIndex == 3,
+                  ),
+                  label: "Radio",
+                ),
+                BottomNavigationBarItem(
+                  icon: CustomBottomNavigationBarIcon(
+                    imagePath: AppImages.icTime,
+                    isSelected: selectedIndex == 4,
+                  ),
+                  label: "Time",
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomBottomNavigationBarIcon extends StatelessWidget {
+  final String imagePath;
+  final bool isSelected;
+
+  const CustomBottomNavigationBarIcon({
+    required this.imagePath,
+    required this.isSelected,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 300),
+      transitionBuilder:
+          (child, animation) => ScaleTransition(scale: animation , child: child,),
+      child:
+          isSelected
+              ? Container(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: AppColors.black.withAlpha(50),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: ImageIcon(AssetImage(imagePath)),
+              )
+              : ImageIcon(AssetImage(imagePath)),
+    );
+  }
+}
