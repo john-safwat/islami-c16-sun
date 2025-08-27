@@ -47,7 +47,9 @@ class _SuraDetailsState extends State<SuraDetails> {
       "assets/files/${widget.sura.id}.txt",
     );
     var ayas = sura.split("\n");
-    String formatedSura = "";
+    String formatedSura = " ";
+
+
     for (int i = 0; i < ayas.length; i++) {
       formatedSura = "$formatedSura[${i + 1}]${ayas[i].trim()} ";
     }
