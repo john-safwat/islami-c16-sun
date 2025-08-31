@@ -10,10 +10,6 @@ class HadethTab extends StatelessWidget {
       child: Center(
         child: Text("data"),
 
-
-
-
-
       ),
     );
   }
