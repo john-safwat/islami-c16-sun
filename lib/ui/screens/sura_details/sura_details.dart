@@ -42,13 +42,19 @@ class _SuraDetailsState extends State<SuraDetails> {
                     child: Row(
                       children: [
                         Image.asset(AppImages.imgLeftCorner),
-                        Expanded(child: Text(
-                          widget.sura.nameAr,
-                          style: TextStyles.largeLabelTextStyle(
-                            textColor: AppColors.gold,
+                        Expanded(
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+
+                            child: Text(
+                              widget.sura.nameAr,
+                              style: TextStyles.largeLabelTextStyle(
+                                textColor: AppColors.gold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
-                        ),),
+                        ),
                         Image.asset(AppImages.imgRightCorner),
                       ],
                     ),
@@ -56,16 +62,19 @@ class _SuraDetailsState extends State<SuraDetails> {
                   Expanded(
                     child: SingleChildScrollView(
                       padding: EdgeInsets.all(16),
-                      child: Text(
-                        suraContent!,
-                        style: TextStyles.largeBodyTextStyle(
-                          textColor: AppColors.gold,
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Text(
+                          suraContent!,
+                          style: TextStyles.largeBodyTextStyle(
+                            textColor: AppColors.gold,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
-                  Image.asset(AppImages.imgBottomDecoration)
+                  Image.asset(AppImages.imgBottomDecoration),
                 ],
               ),
     );
@@ -75,11 +84,11 @@ class _SuraDetailsState extends State<SuraDetails> {
     var sura = await rootBundle.loadString(
       "assets/files/${widget.sura.id}.txt",
     );
-    var ayas = sura.split("\n");
+    var ayas = sura.trim().split("\n");
     String formatedSura = " ";
 
     for (int i = 0; i < ayas.length; i++) {
-      formatedSura = "$formatedSura[${i + 1}]${ayas[i].trim()} ";
+      formatedSura = " $formatedSura[${i + 1}] ${ayas[i].trim()} ";
     }
     suraContent = formatedSura;
     setState(() {});
