@@ -40,6 +40,7 @@ class _SuraDetailsState extends State<SuraDetails> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
+
                       children: [
                         Image.asset(AppImages.imgLeftCorner),
                         Expanded(child: Text(
