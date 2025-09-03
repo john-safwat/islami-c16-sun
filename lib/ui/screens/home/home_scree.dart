@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:islami_c16_sum/core/assets/app_images.dart';
 import 'package:islami_c16_sum/core/styles/app_colors.dart';
-import 'package:islami_c16_sum/ui/screens/home/tabs/haedth/hadeth_tab.dart';
+import 'package:islami_c16_sum/ui/screens/home/tabs/hadeth_tab.dart';
 import 'package:islami_c16_sum/ui/screens/home/tabs/quran_tab/quran_tab.dart';
 import 'package:islami_c16_sum/ui/screens/home/tabs/radio_tab.dart';
 import 'package:islami_c16_sum/ui/screens/home/tabs/sebha_tab.dart';
