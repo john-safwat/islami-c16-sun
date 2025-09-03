@@ -9,7 +9,6 @@ class Sura {
   static List<Sura> suras = [];
 
   static void generateSurasList() {
-    suras = [];
     for (int i = 0; i < englishQuranSurahs.length; i++) {
       suras.add(
         Sura(arabicAuranSuras[i], englishQuranSurahs[i], ayaNumber[i], i + 1),

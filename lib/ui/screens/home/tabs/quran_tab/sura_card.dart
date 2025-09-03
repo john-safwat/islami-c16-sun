@@ -7,14 +7,14 @@ import 'package:islami_c16_sum/ui/screens/sura_details/sura_details.dart';
 
 class SuraCard extends StatelessWidget {
   final Sura sura;
-  final Function(Sura) onSuraClick;
-  const SuraCard({required this.sura , required this.onSuraClick, super.key});
+
+  const SuraCard({required this.sura, super.key});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        onSuraClick(sura);
+        Navigator.pushNamed(context, SuraDetails.routeName, arguments: sura);
       },
       child: Row(
         children: [
