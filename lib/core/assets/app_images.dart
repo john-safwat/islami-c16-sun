@@ -21,5 +21,13 @@ abstract class AppImages {
   static const String radioBG = 'assets/images/radio_bg.png';
   static const String sebhaBG = 'assets/images/sebha_bg.png';
   static const String imageHeader = 'assets/images/img_header.png';
-  static const String suraNumberDecoration = 'assets/images/sura_number_decoration.png';
+  static const String suraNumberDecoration =
+      'assets/images/sura_number_decoration.png';
+  static const String hadethCardBackground =
+      'assets/images/hadeth_card_background.png';
+  static const String imgBottomDecoration =
+      'assets/images/img_bottom_decoration.png';
+  static const String imgLeftCorner = 'assets/images/img_left_corner.png';
+  static const String imgRightCorner = 'assets/images/img_right_corner.png';
+  static const String imgMostRecent = 'assets/images/img_most_recent.png';
 }
