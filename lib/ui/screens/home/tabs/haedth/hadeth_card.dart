@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:islami_c16_sum/core/assets/app_images.dart';
 import 'package:islami_c16_sum/core/styles/app_colors.dart';
 import 'package:islami_c16_sum/core/styles/text_styles.dart';
+import 'package:islami_c16_sum/ui/screens/hadeth_details/hadeth_details.dart';
 import 'package:islami_c16_sum/ui/screens/home/models/hadeth.dart';
 
 class HadethCard extends StatelessWidget {
@@ -11,42 +12,61 @@ class HadethCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColors.gold,
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(
-          image: AssetImage(AppImages.hadethCardBackground),
-        ),
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                ImageIcon(
-                  AssetImage(AppImages.imgLeftCorner),
-                  color: AppColors.black,
-                  size: 72,
-                ),
-                Expanded(child: Text(hadeth.name, textAlign: TextAlign.center)),
-                ImageIcon(
-                  AssetImage(AppImages.imgRightCorner),
-                  color: AppColors.black,
-                  size: 72,
-                ),
-              ],
-            ),
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          HadethDetails.routeName,
+          arguments: hadeth,
+        );
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.gold,
+          borderRadius: BorderRadius.circular(20),
+          image: DecorationImage(
+            image: AssetImage(AppImages.hadethCardBackground),
           ),
-          Expanded(child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(hadeth.content , textAlign: TextAlign.center , style: TextStyles.largeBodyTextStyle(textColor: AppColors.black),),
-          )),
-          Image.asset(AppImages.imgBottomDecoration, color: AppColors.black),
-        ],
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  ImageIcon(
+                    AssetImage(AppImages.imgLeftCorner),
+                    color: AppColors.black,
+                    size: 72,
+                  ),
+                  Expanded(
+                    child: Text(hadeth.name, textAlign: TextAlign.center),
+                  ),
+                  ImageIcon(
+                    AssetImage(AppImages.imgRightCorner),
+                    color: AppColors.black,
+                    size: 72,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  hadeth.content,
+                  textAlign: TextAlign.center,
+                  style: TextStyles.largeBodyTextStyle(
+                    textColor: AppColors.black,
+                  ),
+                ),
+              ),
+            ),
+            Image.asset(AppImages.imgBottomDecoration, color: AppColors.black),
+          ],
+        ),
       ),
     );
   }
