@@ -3,8 +3,11 @@ import 'package:islami_c16_sum/core/assets/app_images.dart';
 import 'package:islami_c16_sum/core/styles/app_colors.dart';
 import 'package:islami_c16_sum/core/styles/text_styles.dart';
 import 'package:islami_c16_sum/ui/screens/home/models/sura.dart';
+import 'package:islami_c16_sum/ui/screens/home/tabs/quran_tab/most_recent_card.dart';
 import 'package:islami_c16_sum/ui/screens/home/tabs/quran_tab/sura_card.dart';
+import 'package:islami_c16_sum/ui/screens/sura_details/sura_details.dart';
 import 'package:islami_c16_sum/ui/widgets/base_tab_body.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuranTab extends StatefulWidget {
   const QuranTab({super.key});
@@ -14,10 +17,21 @@ class QuranTab extends StatefulWidget {
 }
 
 class _QuranTabState extends State<QuranTab> {
+  List<Sura> fullList = [];
+  List<Sura> searchList = [];
+  List<Sura> mostRecent = [];
+
   @override
   void initState() {
     super.initState();
     Sura.generateSurasList();
+    for (var sura in Sura.suras) {
+      fullList.add(sura);
+    }
+    for (var sura in Sura.suras) {
+      searchList.add(sura);
+    }
+    readMostRecentSura();
   }
 
   @override
@@ -27,24 +41,124 @@ class _QuranTabState extends State<QuranTab> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric( horizontal: 15),
+            padding: const EdgeInsets.all(16.0),
+            child: TextFormField(
+              onChanged: (value) {
+                searchInList(value);
+              },
+              style: TextStyles.smallLabelTextStyle(textColor: AppColors.white),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppColors.black.withAlpha(80),
+                prefixIcon: ImageIcon(
+                  AssetImage(AppImages.icQuran),
+                  color: AppColors.gold,
+                ),
+                hintText: "Search By Sura Name",
+                hintStyle: TextStyles.smallLabelTextStyle(
+                  textColor: AppColors.white,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: AppColors.gold),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: AppColors.gold),
+                ),
+              ),
+            ),
+          ),
+          if (mostRecent.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                "Most Recent",
+                style: TextStyles.largeBodyTextStyle(),
+              ),
+            ),
+
+          if (mostRecent.isNotEmpty)
+            SizedBox(
+              height: 172,
+              child: ListView.separated(
+                padding: EdgeInsets.all(16),
+                scrollDirection: Axis.horizontal,
+                separatorBuilder: (_, _) => SizedBox(width: 16),
+                itemBuilder:
+                    (_, index) => MostRecentCard(
+                      sura: mostRecent[index],
+                      onSuraClick: onSuraClick,
+                    ),
+                itemCount: mostRecent.length,
+              ),
+            ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Text("Suras List", style: TextStyles.largeBodyTextStyle()),
           ),
           Expanded(
             child: ListView.separated(
               padding: EdgeInsets.all(16),
-              itemBuilder: (context , index) => SuraCard(sura: Sura.suras[index]),
+              itemBuilder:
+                  (context, index) => SuraCard(
+                    sura: searchList[index],
+                    onSuraClick: onSuraClick,
+                  ),
               separatorBuilder:
                   (_, _) => Divider(
                     indent: 40,
                     endIndent: 40,
                     color: AppColors.white,
                   ),
-              itemCount: Sura.suras.length,
+              itemCount: searchList.length,
             ),
           ),
         ],
       ),
     );
+  }
+
+  void searchInList(String value) {
+    var searchResults =
+        fullList
+            .where(
+              (element) =>
+                  element.nameEn.toLowerCase().contains(value.toLowerCase()),
+            )
+            .toList();
+    if (searchResults.isEmpty) {
+      searchResults =
+          fullList.where((element) => element.nameAr.contains(value)).toList();
+    }
+    searchList = searchResults;
+    setState(() {});
+  }
+
+  Future<void> onSuraClick(Sura sura) async {
+    Navigator.pushNamed(context, SuraDetails.routeName, arguments: sura);
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> surasIds = preferences.getStringList("mostRecent") ?? [];
+    if (surasIds.contains(sura.id.toString())) {
+      surasIds.removeWhere((id) => id == sura.id.toString());
+    }
+    surasIds = [sura.id.toString(), ...surasIds];
+    await preferences.setStringList("mostRecent", surasIds);
+    readMostRecentSura();
+  }
+
+  Future<void> readMostRecentSura() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List<String> surasIds = preferences.getStringList("mostRecent") ?? [];
+
+    mostRecent = [];
+    for (var value in surasIds) {
+      mostRecent.add(
+        fullList.firstWhere((element) => element.id.toString() == value),
+      );
+    }
+    print(mostRecent);
+    setState(() {});
   }
 }

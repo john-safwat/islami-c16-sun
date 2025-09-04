@@ -1,7 +1,6 @@
 // DO NOT EDIT. This is code generated via package:get_cli/get_cli.dart
 
 abstract class AppImages {
-
   /// Images
   static const String glow = 'assets/images/Glow.png';
   static const String group36 = 'assets/images/Group 36.png';
@@ -23,11 +22,18 @@ abstract class AppImages {
   static const String imageHeader = 'assets/images/img_header.png';
   static const String suraNumberDecoration =
       'assets/images/sura_number_decoration.png';
+<<<<<<< HEAD
   static const String hadethCardBackground =
       'assets/images/hadeth_card_background.png';
+=======
+>>>>>>> parent of b8a56bd (Revert "feature / Quran and Quran details ")
   static const String imgBottomDecoration =
       'assets/images/img_bottom_decoration.png';
   static const String imgLeftCorner = 'assets/images/img_left_corner.png';
   static const String imgRightCorner = 'assets/images/img_right_corner.png';
   static const String imgMostRecent = 'assets/images/img_most_recent.png';
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> parent of b8a56bd (Revert "feature / Quran and Quran details ")
